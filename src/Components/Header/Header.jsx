@@ -1,31 +1,71 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import css from './Header.module.css'
-import logo from '/img/logo.png'
+import logo from '../../assets/img/logo.png'
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [serverStatus, setServerStatus] = useState({ online: 0, max: 0 });
+  const gameInfoRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       setIsScrolled(scrollTop > 50);
+      
+      // Анимация появления gameInfoContainer при скролле
+      if (gameInfoRef.current) {
+        const element = gameInfoRef.current;
+        const elementTop = element.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (elementTop < windowHeight * 0.8) {
+          element.classList.add(css.visible);
+        }
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
+    // Запускаем сразу для проверки видимости
+    handleScroll();
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-    const scrollToSection = (sectionId) => {
+  // 🔥 Получаем статус сервера из API
+  useEffect(() => {
+    const fetchStatus = async () => {
+      try {
+        const res = await fetch("https://api.mcsrvstat.us/2/213.152.43.72:25748");
+        const data = await res.json();
+
+        if (data.online) {
+          setServerStatus({
+            online: data.players.online,
+            max: data.players.max,
+          });
+        } else {
+          setServerStatus({ online: 0, max: 0 });
+        }
+      } catch (err) {
+        console.error("Ошибка загрузки статуса:", err);
+        setServerStatus({ online: 0, max: 0 });
+      }
+    };
+
+    fetchStatus();
+    const interval = setInterval(fetchStatus, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      const headerHeight = 80; // Высота хедера
+      const headerHeight = 80;
       const windowHeight = window.innerHeight;
       const elementHeight = element.offsetHeight;
       const elementTop = element.offsetTop;
-      
-      // Вычисляем позицию для центрирования секции
       const centerPosition = elementTop - headerHeight - (windowHeight - elementHeight) / 2;
-      
+
       window.scrollTo({
         top: Math.max(0, centerPosition),
         behavior: 'smooth'
@@ -34,28 +74,12 @@ const Header = () => {
   };
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const scrollToFooter = () => {
-    const footer = document.querySelector('footer');
-    if (footer) {
-      const headerHeight = 80;
-      const footerTop = footer.offsetTop;
-      
-      window.scrollTo({
-        top: footerTop - headerHeight,
-        behavior: 'smooth'
-      });
-    }
-  };
-
+ 
   return (
     <div className={css.headerWrapper}>
-      {/* Навигационная панель */}
       <header className={`${css.navigationBar} ${isScrolled ? css.scrolled : ''}`}>
         <div className={css.headerContainer}>
           <div className={css.headerAbout}>
@@ -65,10 +89,10 @@ const Header = () => {
           <div className={css.headerNavigation}>
             <ul className={css.headerMenuList}>
               <li className={css.headerMenuItem} onClick={scrollToTop}>Главная</li>
-              <li className={css.headerMenuItem} onClick={() => scrollToSection('social')}>Почему мы?</li>
-              <li className={css.headerMenuItem} onClick={() => scrollToSection('faq')}>Команда</li>
-              <li className={css.headerMenuItem} onClick={scrollToFooter}>FAQ</li>
-              <li className={css.headerMenuItem} onClick={() => scrollToSection('team')}>Социальные сети</li>
+              <li className={css.headerMenuItem} onClick={() => scrollToSection('features')}>Почему мы?</li>
+              <li className={css.headerMenuItem} onClick={() => scrollToSection('team')}>Команда</li>
+              <li className={css.headerMenuItem} onClick={() => scrollToSection('faq')}>FAQ</li>
+              <li className={css.headerMenuItem} onClick={() => scrollToSection('social')}>Социальные сети</li>
             </ul>
           </div>
           <div className={css.headerButtons}>
@@ -78,9 +102,8 @@ const Header = () => {
         </div>
       </header>
 
-      {/* Основной баннер с игровой информацией */}
       <section className={css.gameBanner}>
-        <div className={css.gameInfoContainer}>
+        <div ref={gameInfoRef} className={css.gameInfoContainer}>
           <div className={css.gameInfo}>
             <h2 className={css.gameTitle}>SteamWorld - Сервер на основе Create</h2>
             <p className={css.gameSubtitle}>Погрузись в мир Create</p>
@@ -88,11 +111,11 @@ const Header = () => {
             <div className={css.gameStats}>
               <div className={css.statItem}>
                 <span className={css.statLabel}>В ИГРЕ</span>
-                <span className={css.statNumber}>0</span>
+                <span className={css.statNumber}>{serverStatus.online}</span>
               </div>
               <div className={css.statItem}>
                 <span className={css.statLabel}>ВСЕГО</span>
-                <span className={css.statNumber}>0</span>
+                <span className={css.statNumber}>{serverStatus.max}</span>
               </div>
             </div>
 

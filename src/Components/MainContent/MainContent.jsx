@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import css from './MainContent.module.css'
 import { 
   FaServer, 
@@ -38,6 +38,39 @@ const MainContent = () => {
   const [openFaq, setOpenFaq] = useState(null);
   const [currentTeamIndex, setCurrentTeamIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  
+  const featuresRef = useRef(null);
+  const socialRef = useRef(null);
+  const teamRef = useRef(null);
+  const faqRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const elements = [
+        { ref: featuresRef, className: css.visible },
+        { ref: socialRef, className: css.visible },
+        { ref: teamRef, className: css.visible },
+        { ref: faqRef, className: css.visible }
+      ];
+      
+      elements.forEach(({ ref, className }) => {
+        if (ref.current) {
+          const element = ref.current;
+          const elementTop = element.getBoundingClientRect().top;
+          const windowHeight = window.innerHeight;
+          
+          if (elementTop < windowHeight * 0.8) {
+            element.classList.add(className);
+          }
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Проверяем сразу при загрузке
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const teamData = [
     {
@@ -153,8 +186,8 @@ const MainContent = () => {
 
   return (
     <main className={css.mainContent}>
-             {/* Секция "Почему именно мы?" */}
-       <section id="features" className={css.featuresSection}>
+      {/* Секция "Почему именно мы?" */}
+      <section id="features" ref={featuresRef} className={css.featuresSection}>
         <div className={css.container}>
           <h2 className={css.sectionTitle}>Почему именно мы?</h2>
           <p className={css.sectionSubtitle}>
@@ -240,8 +273,7 @@ const MainContent = () => {
               <div className={css.featureIcon}>
                 <FaBalanceScale />
               </div>
-              <h3 className={css.featureTitle}>Отсутствия pay to win:
-</h3>
+              <h3 className={css.featureTitle}>Отсутствия pay to win</h3>
               <p className={css.featureDescription}>
                 Мы придерживаемся политики, что все игроки должны иметь одинаковые возможности, по этому донат не дает преимущества на нашем сервере.
               </p>
@@ -253,8 +285,10 @@ const MainContent = () => {
             </div>
           </div>
         </div>
-          </section>
-                     <section id="social" className={css.socialSection}>
+      </section>
+
+      {/* Секция социальных сетей */}
+      <section id="social" ref={socialRef} className={css.socialSection}>
         <div className={css.container}>
           <h2 className={css.sectionTitle}>Присоединяйтесь к нам</h2>
           <p className={css.sectionSubtitle}>
@@ -266,9 +300,9 @@ const MainContent = () => {
                 <FaYoutube />
               </div>
               <h3 className={css.socialTitle}>YouTube</h3>
-                             <p className={css.socialDescription}>
-                 Смотрите гайды по Create, обзоры сервера SteamWorld и забавные моменты игроков
-               </p>
+              <p className={css.socialDescription}>
+                Смотрите гайды по Create, обзоры сервера SteamWorld и забавные моменты игроков
+              </p>
               <button 
                 className={`${css.socialButton} ${css.youtubeButton}`}
                 onClick={() => window.open('https://www.youtube.com/watch?v=3fSoaoQg0Ug', '_blank')}
@@ -298,9 +332,9 @@ const MainContent = () => {
                 <FaTiktok />
               </div>
               <h3 className={css.socialTitle}>TikTok</h3>
-                             <p className={css.socialDescription}>
-                 Короткие видео с сервера SteamWorld, лайфхаки и забавные моменты в игре
-               </p>
+              <p className={css.socialDescription}>
+                Короткие видео с сервера SteamWorld, лайфхаки и забавные моменты в игре
+              </p>
               <button 
                 className={`${css.socialButton} ${css.tiktokButton}`}
                 onClick={() => window.open('https://www.tiktok.com/@structo0', '_blank')}
@@ -312,11 +346,8 @@ const MainContent = () => {
         </div>
       </section>
 
-      {/* Секция FAQ */}
-      
-
-             {/* Секция команды */}
-       <section id="team" className={css.teamSection}>
+      {/* Секция команды */}
+      <section id="team" ref={teamRef} className={css.teamSection}>
         <div className={css.container}>
           <h2 className={css.sectionTitle}>Наша команда</h2>
           <p className={css.sectionSubtitle}>
@@ -328,9 +359,9 @@ const MainContent = () => {
               <FaChevronLeft />
             </button>
             
-                         <div className={css.teamGrid}>
-               {getVisibleTeamMembers().map((member) => (
-                 <div key={member.id} className={`${css.teamCard} ${isAnimating ? css.slideOut : ''}`}>
+            <div className={css.teamGrid}>
+              {getVisibleTeamMembers().map((member) => (
+                <div key={member.id} className={`${css.teamCard} ${isAnimating ? css.slideOut : ''}`}>
                   <div className={css.teamAvatar}>
                     <img src={member.avatar} alt={member.name} />
                     <div className={css.teamRoleIcon}>
@@ -354,27 +385,28 @@ const MainContent = () => {
             </button>
           </div>
           
-                     <div className={css.carouselDots}>
-             {teamData.map((_, index) => (
-               <button
-                 key={index}
-                 className={`${css.carouselDot} ${currentTeamIndex === index ? css.active : ''}`}
-                 onClick={() => {
-                   if (!isAnimating) {
-                     setIsAnimating(true);
-                     setTimeout(() => {
-                       setCurrentTeamIndex(index);
-                       setIsAnimating(false);
-                     }, 300);
-                   }
-                 }}
-               />
-             ))}
-           </div>
+          <div className={css.carouselDots}>
+            {teamData.map((_, index) => (
+              <button
+                key={index}
+                className={`${css.carouselDot} ${currentTeamIndex === index ? css.active : ''}`}
+                onClick={() => {
+                  if (!isAnimating) {
+                    setIsAnimating(true);
+                    setTimeout(() => {
+                      setCurrentTeamIndex(index);
+                      setIsAnimating(false);
+                    }, 300);
+                  }
+                }}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
-    <section id="faq" className={css.faqSection}>
+      {/* Секция FAQ */}
+      <section id="faq" ref={faqRef} className={css.faqSection}>
         <div className={css.container}>
           <h2 className={css.sectionTitle}>Часто задаваемые вопросы</h2>
           <p className={css.sectionSubtitle}>
@@ -397,9 +429,8 @@ const MainContent = () => {
           </div>
         </div>
       </section>
-      
     </main>
   )
 }
 
-export default MainContent 
+export default MainContent
