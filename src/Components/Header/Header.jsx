@@ -15,6 +15,44 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+    const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const headerHeight = 80; // Высота хедера
+      const windowHeight = window.innerHeight;
+      const elementHeight = element.offsetHeight;
+      const elementTop = element.offsetTop;
+      
+      // Вычисляем позицию для центрирования секции
+      const centerPosition = elementTop - headerHeight - (windowHeight - elementHeight) / 2;
+      
+      window.scrollTo({
+        top: Math.max(0, centerPosition),
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
+  const scrollToFooter = () => {
+    const footer = document.querySelector('footer');
+    if (footer) {
+      const headerHeight = 80;
+      const footerTop = footer.offsetTop;
+      
+      window.scrollTo({
+        top: footerTop - headerHeight,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <div className={css.headerWrapper}>
       {/* Навигационная панель */}
@@ -26,9 +64,11 @@ const Header = () => {
           </div>
           <div className={css.headerNavigation}>
             <ul className={css.headerMenuList}>
-              <li className={css.headerMenuItem}>Главная</li>
-              <li className={css.headerMenuItem}>Как играть</li>
-              <li className={css.headerMenuItem}>Поддержка</li>
+              <li className={css.headerMenuItem} onClick={scrollToTop}>Главная</li>
+              <li className={css.headerMenuItem} onClick={() => scrollToSection('social')}>Почему мы?</li>
+              <li className={css.headerMenuItem} onClick={() => scrollToSection('faq')}>Команда</li>
+              <li className={css.headerMenuItem} onClick={scrollToFooter}>FAQ</li>
+              <li className={css.headerMenuItem} onClick={() => scrollToSection('team')}>Социальные сети</li>
             </ul>
           </div>
           <div className={css.headerButtons}>
@@ -56,7 +96,7 @@ const Header = () => {
               </div>
             </div>
 
-            <button className={css.playButton}>
+            <button className={css.playButton} onClick={() => scrollToSection('features')}>
               НАЧАТЬ ИГРАТЬ ►
             </button>
           </div>

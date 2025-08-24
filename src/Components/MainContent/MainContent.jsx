@@ -24,11 +24,68 @@ import {
   FaDiscord,
   FaTiktok,
   FaQuestionCircle,
-  FaChevronDown
+  FaChevronDown,
+  FaChevronLeft,
+  FaChevronRight,
+  FaCrown,
+  FaCode,
+  FaGamepad as FaGamepadIcon,
+  FaShieldAlt as FaShieldIcon,
+  FaUsers as FaUsersIcon
 } from 'react-icons/fa'
 
 const MainContent = () => {
   const [openFaq, setOpenFaq] = useState(null);
+  const [currentTeamIndex, setCurrentTeamIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const teamData = [
+    {
+      id: 1,
+      name: "Qwed_is_legacy",
+      role: "Основатель & Главный администратор",
+      avatar: "/src/assets/img/qwed_is_legacy.png",
+      description: "Создатель проекта и главный администратор сервера. Отвечает за общее развитие проекта, техническую поддержку и стратегическое планирование.",
+      skills: ["Управление проектом", "Техническая поддержка", "Строительство"],
+      icon: FaCrown
+    },
+    {
+      id: 2,
+      name: "Lllavanda",
+      role: "Ведущий разработчик",
+      avatar: "/src/assets/img/lllavanda_a.png",
+      description: "Главный разработчик сервера. Создает уникальные плагины, настраивает моды и обеспечивает стабильную работу всех систем.",
+      skills: ["Строительство", "Настройка модов", "Системная архитектура"],
+      icon: FaCode
+    },
+    {
+      id: 3,
+      name: "Markel2432",
+      role: "Модератор & Ивент-менеджер",
+      avatar: "/src/assets/img/markel2432.png",
+      description: "Организует игровые события, следит за порядком на сервере и создает увлекательную атмосферу для игроков.",
+      skills: ["Организация событий", "Модерация", "Социальная активность"],
+      icon: FaGamepadIcon
+    },
+    {
+      id: 4,
+      name: "Chikenboy482",
+      role: "Технический администратор",
+      avatar: "/src/assets/img/chikenboy482.png",
+      description: "Отвечает за техническую стабильность сервера, настройку плагинов и решение сложных технических вопросов.",
+      skills: ["Техническая поддержка", "Строительство", "Системное администрирование"],
+      icon: FaShieldIcon
+    },
+    {
+      id: 5,
+      name: "Jokulllka",
+      role: "Социальный менеджер",
+      avatar: "/src/assets/img/jokulllka.png",
+      description: "Управляет социальными сетями, общается с игроками и создает дружелюбную атмосферу в сообществе.",
+      skills: ["Социальные сети", "Комьюнити-менеджмент", "Поддержка игроков"],
+      icon: FaUsersIcon
+    }
+  ];
 
   const faqData = [
     {
@@ -67,10 +124,37 @@ const MainContent = () => {
     setOpenFaq(openFaq === id ? null : id);
   };
 
+  const nextTeam = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setTimeout(() => {
+      setCurrentTeamIndex((prev) => (prev + 1) % teamData.length);
+      setIsAnimating(false);
+    }, 300);
+  };
+
+  const prevTeam = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setTimeout(() => {
+      setCurrentTeamIndex((prev) => (prev - 1 + teamData.length) % teamData.length);
+      setIsAnimating(false);
+    }, 300);
+  };
+
+  const getVisibleTeamMembers = () => {
+    const members = [];
+    for (let i = 0; i < 3; i++) {
+      const index = (currentTeamIndex + i) % teamData.length;
+      members.push(teamData[index]);
+    }
+    return members;
+  };
+
   return (
     <main className={css.mainContent}>
-      {/* Секция "Почему именно мы?" */}
-      <section className={css.featuresSection}>
+             {/* Секция "Почему именно мы?" */}
+       <section id="features" className={css.featuresSection}>
         <div className={css.container}>
           <h2 className={css.sectionTitle}>Почему именно мы?</h2>
           <p className={css.sectionSubtitle}>
@@ -168,35 +252,8 @@ const MainContent = () => {
             </div>
           </div>
         </div>
-      </section>
-
-      {/* Секция FAQ */}
-      <section className={css.faqSection}>
-        <div className={css.container}>
-          <h2 className={css.sectionTitle}>Часто задаваемые вопросы</h2>
-          <p className={css.sectionSubtitle}>
-            Ответы на самые популярные вопросы о нашем сервере. Если вы не нашли ответ на свой вопрос, обязательно спросите в нашем Discord!
-          </p>
-          <div className={css.faqGrid}>
-            {faqData.map((item) => (
-              <div key={item.id} className={css.faqCard}>
-                <div className={css.faqHeader} onClick={() => toggleFaq(item.id)}>
-                  <h3 className={css.faqQuestion}>{item.question}</h3>
-                  <FaChevronDown className={`${css.faqIcon} ${openFaq === item.id ? css.rotate : ''}`} />
-                </div>
-                {openFaq === item.id && (
-                  <div className={css.faqAnswer}>
-                    <p>{item.answer}</p>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Секция социальных сетей */}
-      <section className={css.socialSection}>
+          </section>
+                     <section id="social" className={css.socialSection}>
         <div className={css.container}>
           <h2 className={css.sectionTitle}>Присоединяйтесь к нам</h2>
           <p className={css.sectionSubtitle}>
@@ -208,9 +265,9 @@ const MainContent = () => {
                 <FaYoutube />
               </div>
               <h3 className={css.socialTitle}>YouTube</h3>
-              <p className={css.socialDescription}>
-                Смотрите гайды по Create, обзоры сервера и забавные моменты игроков
-              </p>
+                             <p className={css.socialDescription}>
+                 Смотрите гайды по Create, обзоры сервера SteamWorld и забавные моменты игроков
+               </p>
               <button 
                 className={`${css.socialButton} ${css.youtubeButton}`}
                 onClick={() => window.open('https://www.youtube.com/watch?v=3fSoaoQg0Ug', '_blank')}
@@ -240,9 +297,9 @@ const MainContent = () => {
                 <FaTiktok />
               </div>
               <h3 className={css.socialTitle}>TikTok</h3>
-              <p className={css.socialDescription}>
-                Короткие видео с сервера, лайфхаки и забавные моменты в игре
-              </p>
+                             <p className={css.socialDescription}>
+                 Короткие видео с сервера SteamWorld, лайфхаки и забавные моменты в игре
+               </p>
               <button 
                 className={`${css.socialButton} ${css.tiktokButton}`}
                 onClick={() => window.open('https://www.tiktok.com/@structo0', '_blank')}
@@ -253,6 +310,93 @@ const MainContent = () => {
           </div>
         </div>
       </section>
+
+      {/* Секция FAQ */}
+      
+
+             {/* Секция команды */}
+       <section id="team" className={css.teamSection}>
+        <div className={css.container}>
+          <h2 className={css.sectionTitle}>Наша команда</h2>
+          <p className={css.sectionSubtitle}>
+            Познакомьтесь с создателями сервера - талантливой командой, которая делает ваш игровой опыт незабываемым
+          </p>
+          
+          <div className={css.teamCarousel}>
+            <button className={css.carouselButton} onClick={prevTeam}>
+              <FaChevronLeft />
+            </button>
+            
+                         <div className={css.teamGrid}>
+               {getVisibleTeamMembers().map((member) => (
+                 <div key={member.id} className={`${css.teamCard} ${isAnimating ? css.slideOut : ''}`}>
+                  <div className={css.teamAvatar}>
+                    <img src={member.avatar} alt={member.name} />
+                    <div className={css.teamRoleIcon}>
+                      <member.icon />
+                    </div>
+                  </div>
+                  <h3 className={css.teamName}>{member.name}</h3>
+                  <p className={css.teamRole}>{member.role}</p>
+                  <p className={css.teamDescription}>{member.description}</p>
+                  <div className={css.teamSkills}>
+                    {member.skills.map((skill, skillIndex) => (
+                      <span key={skillIndex} className={css.teamSkill}>{skill}</span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+            
+            <button className={css.carouselButton} onClick={nextTeam}>
+              <FaChevronRight />
+            </button>
+          </div>
+          
+                     <div className={css.carouselDots}>
+             {teamData.map((_, index) => (
+               <button
+                 key={index}
+                 className={`${css.carouselDot} ${currentTeamIndex === index ? css.active : ''}`}
+                 onClick={() => {
+                   if (!isAnimating) {
+                     setIsAnimating(true);
+                     setTimeout(() => {
+                       setCurrentTeamIndex(index);
+                       setIsAnimating(false);
+                     }, 300);
+                   }
+                 }}
+               />
+             ))}
+           </div>
+        </div>
+      </section>
+
+    <section id="faq" className={css.faqSection}>
+        <div className={css.container}>
+          <h2 className={css.sectionTitle}>Часто задаваемые вопросы</h2>
+          <p className={css.sectionSubtitle}>
+            Ответы на самые популярные вопросы о нашем сервере. Если вы не нашли ответ на свой вопрос, обязательно спросите в нашем Discord!
+          </p>
+          <div className={css.faqGrid}>
+            {faqData.map((item) => (
+              <div key={item.id} className={css.faqCard}>
+                <div className={css.faqHeader} onClick={() => toggleFaq(item.id)}>
+                  <h3 className={css.faqQuestion}>{item.question}</h3>
+                  <FaChevronDown className={`${css.faqIcon} ${openFaq === item.id ? css.rotate : ''}`} />
+                </div>
+                {openFaq === item.id && (
+                  <div className={css.faqAnswer}>
+                    <p>{item.answer}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      
     </main>
   )
 }
