@@ -39,7 +39,7 @@ const Header = () => {
       </header>
 
       {/* Основной баннер с игровой информацией */}
-      <section className={`${css.gameBanner} ${isScrolled ? css.scrolled : ''}`}>
+      <section className={css.gameBanner}>
         <div className={css.gameInfoContainer}>
           <div className={css.gameInfo}>
             <h2 className={css.gameTitle}>SteamWorld - Сервер на основе Create</h2>
@@ -59,6 +59,18 @@ const Header = () => {
             <button className={css.playButton}>
               НАЧАТЬ ИГРАТЬ ►
             </button>
+          </div>
+          
+          <div className={css.gameVideo}>
+            <div className={css.videoWrapper}>
+              <iframe
+                src="https://www.youtube.com/embed/3fSoaoQg0Ug"
+                title="SteamWorld - Сервер на основе Create"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
           </div>
         </div>
       </section>
