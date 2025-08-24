@@ -44,7 +44,7 @@ const MainContent = () => {
       id: 1,
       name: "Qwed_is_legacy",
       role: "Основатель & Главный администратор",
-      avatar: "/src/assets/img/qwed_is_legacy.png",
+      avatar: "/img/qwed_is_legacy.png",
       description: "Создатель проекта и главный администратор сервера. Отвечает за общее развитие проекта, техническую поддержку и стратегическое планирование.",
       skills: ["Управление проектом", "Техническая поддержка", "Строительство"],
       icon: FaCrown
@@ -53,7 +53,7 @@ const MainContent = () => {
       id: 2,
       name: "Lllavanda",
       role: "Ведущий разработчик",
-      avatar: "/src/assets/img/lllavanda_a.png",
+      avatar: "/img/lllavanda_a.png",
       description: "Главный разработчик сервера. Создает уникальные плагины, настраивает моды и обеспечивает стабильную работу всех систем.",
       skills: ["Строительство", "Настройка модов", "Системная архитектура"],
       icon: FaCode
@@ -62,7 +62,7 @@ const MainContent = () => {
       id: 3,
       name: "Markel2432",
       role: "Модератор & Ивент-менеджер",
-      avatar: "/src/assets/img/markel2432.png",
+      avatar: "/img/markel2432.png",
       description: "Организует игровые события, следит за порядком на сервере и создает увлекательную атмосферу для игроков.",
       skills: ["Организация событий", "Модерация", "Социальная активность"],
       icon: FaGamepadIcon
@@ -71,7 +71,7 @@ const MainContent = () => {
       id: 4,
       name: "Chikenboy482",
       role: "Технический администратор",
-      avatar: "/src/assets/img/chikenboy482.png",
+      avatar: "/img/chikenboy482.png",
       description: "Отвечает за техническую стабильность сервера, настройку плагинов и решение сложных технических вопросов.",
       skills: ["Техническая поддержка", "Строительство", "Системное администрирование"],
       icon: FaShieldIcon
@@ -80,7 +80,7 @@ const MainContent = () => {
       id: 5,
       name: "Jokulllka",
       role: "Социальный менеджер",
-      avatar: "/src/assets/img/jokulllka.png",
+      avatar: "/img/jokulllka.png",
       description: "Управляет социальными сетями, общается с игроками и создает дружелюбную атмосферу в сообществе.",
       skills: ["Социальные сети", "Комьюнити-менеджмент", "Поддержка игроков"],
       icon: FaUsersIcon
