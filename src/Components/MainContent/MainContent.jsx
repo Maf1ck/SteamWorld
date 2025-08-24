@@ -167,12 +167,12 @@ const MainContent = () => {
               </div>
               <h3 className={css.featureTitle}>Производительность</h3>
               <p className={css.featureDescription}>
-                Нельзя экономить на сервере, поэтому мы покупаем хостинг за 20.000р/мес, обеспечивая игроков хорошим ТПС.
+                Никогда нельзя экономить на комфорте игроков, по этому мы используем мощный хостинг, обеспечивая вас хорошим ТПС и отсутствием лагов.
               </p>
               <ul className={css.featureList}>
                 <li><FaMicrochip className={css.listIcon} /> AMD Ryzen™ 9 9950X</li>
                 <li><FaMemory className={css.listIcon} /> 64 ГБ ОЗУ DDR5</li>
-                <li><FaMapMarkerAlt className={css.listIcon} /> Россия, Москва</li>
+                <li><FaMapMarkerAlt className={css.listIcon} /> Москва, Россия</li>
               </ul>
             </div>
             
@@ -180,14 +180,14 @@ const MainContent = () => {
               <div className={css.featureIcon}>
                 <FaUsers />
               </div>
-              <h3 className={css.featureTitle}>Лучшее комьюнити</h3>
+              <h3 className={css.featureTitle}>Дружное комьюнити</h3>
               <p className={css.featureDescription}>
-                Наше сообщество очень дружное и ламповое, приветливое и талантливое. Стань его частью!
+                Ламповое, приветливое, талантливое, сплоченное - это все про наше сообщество игроков! Стань его частью!
               </p>
               <ul className={css.featureList}>
-                <li><FaStar className={css.listIcon} /> Доброжелательные игроки</li>
+                <li><FaStar className={css.listIcon} /> Помощь новичкам</li>
                 <li><FaHeart className={css.listIcon} /> Лояльная администрация</li>
-                <li><FaCheck className={css.listIcon} /> Все следуют правилам</li>
+                <li><FaCheck className={css.listIcon} />Доброжелательные игроки</li>
               </ul>
             </div>
             
@@ -197,12 +197,12 @@ const MainContent = () => {
               </div>
               <h3 className={css.featureTitle}>Стабильность</h3>
               <p className={css.featureDescription}>
-                Сервер всегда включен, лагов не наблюдается, а слежка за проблемами ведётся всегда.
+                Сервер работает 24/7, ежедневно перезагружается для устранения проблем. Техническая администрация пристально следит за проблемами и оперативно их решает.
               </p>
               <ul className={css.featureList}>
-                <li><FaBug className={css.listIcon} /> Активно исправляем баги</li>
-                <li><FaFire className={css.listIcon} /> Поддерживаем играбельный TPS</li>
-                <li><FaSync className={css.listIcon} /> Обновляем оборудование</li>
+                <li><FaBug className={css.listIcon} /> Прекрасный тех. админ</li>
+                <li><FaFire className={css.listIcon} /> Мы активно исправляем баги</li>
+                <li><FaSync className={css.listIcon} /> Правильно распределяем ресурсы сервера</li>
               </ul>
             </div>
             
@@ -212,12 +212,12 @@ const MainContent = () => {
               </div>
               <h3 className={css.featureTitle}>Доступность</h3>
               <p className={css.featureDescription}>
-                Возможность попасть к нам на проект абсолютно бесплатная, подав заявку в нашем Дискорд-сервере.
+                Попасть на сервер может каждый - проходка бесплатная, нужно лишь пройти небольшой тест, подав заявку на нашем дискорд сервере. 
               </p>
               <ul className={css.featureList}>
                 <li><FaGamepad className={css.listIcon} /> Легко попасть на сервер</li>
                 <li><FaClipboardCheck className={css.listIcon} /> Быстрая проверка заявки</li>
-                <li><FaCheck className={css.listIcon} /> Бесплатная проходка</li>
+                <li><FaCheck className={css.listIcon} /> Заход и с пиратской, и с лицензионной версии</li>
               </ul>
             </div>
             
@@ -227,12 +227,12 @@ const MainContent = () => {
               </div>
               <h3 className={css.featureTitle}>Фильтрация игроков</h3>
               <p className={css.featureDescription}>
-                У нас очень хорошие правила, а также отличная заявка, что позволяет играть на сервере только адекватам.
+                Администрация активно решает проблемы с нарушителями правил. Чтобы предотвратить попадание недоброжелателей на сервер, мы проводим собеседования с игроками.
               </p>
               <ul className={css.featureList}>
                 <li><FaClipboardCheck className={css.listIcon} /> Строгая проверка заявки</li>
-                <li><FaExclamationTriangle className={css.listIcon} /> Активная модерация</li>
-                <li><FaShieldAlt className={css.listIcon} /> Быстрая выдача наказаний</li>
+                <li><FaExclamationTriangle className={css.listIcon} /> Личное собеседование с игроками</li>
+                <li><FaShieldAlt className={css.listIcon} /> Активная модерация</li>
               </ul>
             </div>
             
@@ -240,13 +240,14 @@ const MainContent = () => {
               <div className={css.featureIcon}>
                 <FaBalanceScale />
               </div>
-              <h3 className={css.featureTitle}>Без влияния на игру</h3>
+              <h3 className={css.featureTitle}>Отсутствия pay to win:
+</h3>
               <p className={css.featureDescription}>
-                Даже при условии наличия доната, мы сбалансировали его так, чтобы он никак не смог помочь в развитии на сервере.
+                Мы придерживаемся политики, что все игроки должны иметь одинаковые возможности, по этому донат не дает преимущества на нашем сервере.
               </p>
               <ul className={css.featureList}>
                 <li><FaPalette className={css.listIcon} /> Косметический донат</li>
-                <li><FaBan className={css.listIcon} /> Донат не мешает игре</li>
+                <li><FaBan className={css.listIcon} /> Донат не дает преимущества в игре</li>
                 <li><FaBalanceScale className={css.listIcon} /> Все на равных</li>
               </ul>
             </div>
