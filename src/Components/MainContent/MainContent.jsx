@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import css from './MainContent.module.css'
 import { 
   FaServer, 
@@ -22,10 +22,51 @@ import {
   FaBan,
   FaYoutube,
   FaDiscord,
-  FaTiktok
+  FaTiktok,
+  FaQuestionCircle,
+  FaChevronDown
 } from 'react-icons/fa'
 
 const MainContent = () => {
+  const [openFaq, setOpenFaq] = useState(null);
+
+  const faqData = [
+    {
+      id: 1,
+      question: "Как попасть на сервер?",
+      answer: "Чтобы попасть на наш сервер, вам нужно подать заявку в нашем Discord-сервере. Заполните анкету, и мы рассмотрим вашу заявку в течение 24 часов. Проходка абсолютно бесплатная!"
+    },
+    {
+      id: 2,
+      question: "Какие правила на сервере?",
+      answer: "У нас действуют строгие правила, направленные на создание комфортной игровой среды. Основные принципы: уважение к другим игрокам, запрет на читы и багоюз, активное участие в жизни сервера."
+    },
+    {
+      id: 3,
+      question: "Есть ли донат на сервере?",
+      answer: "Да, у нас есть система доната, но она полностью косметическая. Донат не даёт никаких игровых преимуществ - только красивые скины, эффекты и другие визуальные элементы. Все игроки находятся в равных условиях."
+    },
+    {
+      id: 4,
+      question: "Какие моды используются на сервере?",
+      answer: "Наш сервер работает на модах Create и других совместимых модах. Полный список модов можно найти в нашем Discord-сервере в разделе #информация."
+    },
+    {
+      id: 5,
+      question: "Что делать, если я нашёл баг?",
+      answer: "Если вы обнаружили баг, обязательно сообщите о нём в канал #баг-репорты в нашем Discord. Мы активно исправляем все найденные проблемы для улучшения игрового процесса."
+    },
+    {
+      id: 6,
+      question: "Как часто обновляется сервер?",
+      answer: "Мы регулярно обновляем сервер, добавляя новые функции и исправляя баги. О всех обновлениях мы заранее уведомляем игроков в Discord и на сайте."
+    }
+  ];
+
+  const toggleFaq = (id) => {
+    setOpenFaq(openFaq === id ? null : id);
+  };
+
   return (
     <main className={css.mainContent}>
       {/* Секция "Почему именно мы?" */}
@@ -125,6 +166,31 @@ const MainContent = () => {
                 <li><FaBalanceScale className={css.listIcon} /> Все на равных</li>
               </ul>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Секция FAQ */}
+      <section className={css.faqSection}>
+        <div className={css.container}>
+          <h2 className={css.sectionTitle}>Часто задаваемые вопросы</h2>
+          <p className={css.sectionSubtitle}>
+            Ответы на самые популярные вопросы о нашем сервере. Если вы не нашли ответ на свой вопрос, обязательно спросите в нашем Discord!
+          </p>
+          <div className={css.faqGrid}>
+            {faqData.map((item) => (
+              <div key={item.id} className={css.faqCard}>
+                <div className={css.faqHeader} onClick={() => toggleFaq(item.id)}>
+                  <h3 className={css.faqQuestion}>{item.question}</h3>
+                  <FaChevronDown className={`${css.faqIcon} ${openFaq === item.id ? css.rotate : ''}`} />
+                </div>
+                {openFaq === item.id && (
+                  <div className={css.faqAnswer}>
+                    <p>{item.answer}</p>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </section>
