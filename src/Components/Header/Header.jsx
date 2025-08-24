@@ -39,12 +39,12 @@ const Header = () => {
       </header>
 
       {/* Основной баннер с игровой информацией */}
-      <section className={css.gameBanner}>
+      <section className={`${css.gameBanner} ${isScrolled ? css.scrolled : ''}`}>
         <div className={css.gameInfoContainer}>
           <div className={css.gameInfo}>
             <h2 className={css.gameTitle}>SteamWorld - Сервер на основе Create</h2>
             <p className={css.gameSubtitle}>Погрузись в мир Create</p>
-            
+
             <div className={css.gameStats}>
               <div className={css.statItem}>
                 <span className={css.statLabel}>В ИГРЕ</span>
@@ -55,7 +55,7 @@ const Header = () => {
                 <span className={css.statNumber}>0</span>
               </div>
             </div>
-            
+
             <button className={css.playButton}>
               НАЧАТЬ ИГРАТЬ ►
             </button>
