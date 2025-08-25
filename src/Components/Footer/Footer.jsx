@@ -26,6 +26,8 @@ if (typeof document !== 'undefined') {
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const [isModalOpen, setIsModalOpen] = useState(false);
+    const [serverStatus, setServerStatus] = useState({ online: 0, max: 0 });
+
   const footerRef = useRef(null);
 
   useEffect(() => {
@@ -46,6 +48,32 @@ const Footer = () => {
     
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+   // 🔥 Получаем статус сервера из API
+  useEffect(() => {
+    const fetchStatus = async () => {
+      try {
+        const res = await fetch("https://api.mcsrvstat.us/2/213.152.43.72:25748");
+        const data = await res.json();
+
+        if (data.online) {
+          setServerStatus({
+            online: data.players.online,
+            max: data.players.max,
+          });
+        } else {
+          setServerStatus({ online: 0, max: 0 });
+        }
+      } catch (err) {
+        console.error("Ошибка загрузки статуса:", err);
+        setServerStatus({ online: 0, max: 0 });
+      }
+    };
+
+    fetchStatus();
+    const interval = setInterval(fetchStatus, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
 
   return (
     <>
@@ -117,7 +145,7 @@ const Footer = () => {
             <div className={css.statItem}>
               <FaUsers className={css.statIcon} />
               <div className={css.statContent}>
-                <span className={css.statNumber}>150+</span>
+                <span className={css.statNumber}>{serverStatus.online}</span>
                 <span className={css.statLabel}>Игроков онлайн</span>
               </div>
             </div>
